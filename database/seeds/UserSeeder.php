@@ -13,8 +13,8 @@ class UserSeeder extends Seeder
     public function run()
     {
         $data = [
-          'name' => 'Nguyễn Tuấn Hải',
-          'email' => 'tuanhai2712@gmail.com',
+          'name' => 'Triệu Thùy Dung',
+          'email' => 'admin@gmail.com',
           'address' => 'Thôn Hoàng Tân - Xã Hoàng Đồng - TP.Lạng Sơn',
           'phone_number' => '0947271292',
           'role' => 999,

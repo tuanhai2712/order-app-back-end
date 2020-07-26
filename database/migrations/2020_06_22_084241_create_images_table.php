@@ -14,7 +14,9 @@ class CreateImagesTable extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->id();
+            $table->collation = 'utf8_unicode_ci';
+            $table->charset = 'utf8';
+            $table->increments('id')->nullable(false)->unsigned();
             $table->string('ma_don_hang');
             $table->string('url');
             $table->timestamps();

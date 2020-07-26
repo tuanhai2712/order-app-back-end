@@ -14,7 +14,9 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->collation = 'utf8_unicode_ci';
+            $table->charset = 'utf8';
+            $table->increments('id')->nullable(false)->unsigned();
             $table->string('user_id');
             $table->string('ten_san_pham')->nullable();
             $table->string('link_san_pham');

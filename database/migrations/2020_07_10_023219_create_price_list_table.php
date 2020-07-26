@@ -14,7 +14,9 @@ class CreatePriceListTable extends Migration
     public function up()
     {
         Schema::create('price_list', function (Blueprint $table) {
-            $table->id();
+            $table->collation = 'utf8_unicode_ci';
+            $table->charset = 'utf8';
+            $table->increments('id')->nullable(false)->unsigned();
             $table->string('price1');
             $table->string('price2');
             $table->string('price3');

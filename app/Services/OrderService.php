@@ -191,7 +191,7 @@ class OrderService implements OrderServiceInterface
               ['ma_van_don', $data[$i][0]],
             ])->first();
             if ($order) {
-              if ($order->tinh_trang === Constants::CHO_GIAO_HANG) {
+              if ($order->tinh_trang == Constants::CHO_GIAO_HANG) {
                 $order->update([
                   'tinh_trang' => Constants::DANG_VAN_CHUYEN,
                   'khoi_luong' => $data[$i][1],

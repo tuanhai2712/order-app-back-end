@@ -59,7 +59,7 @@ class SettingService implements SettingServiceInterface
 
     public function getCustomers($role)
     {
-      if ($role === Constants::USER_ADMIN_ROLE) {
+      if ($role == Constants::USER_ADMIN_ROLE) {
         return DB::table('users')->where('role', '<>', $role)->get()->toArray();
       }
         return [];
@@ -67,7 +67,7 @@ class SettingService implements SettingServiceInterface
 
     public function getOverview($userId, $role)
     {
-      if ($role === Constants::USER_ADMIN_ROLE) {
+      if ($role == Constants::USER_ADMIN_ROLE) {
         $totalOrder = DB::table('orders')->count();
         $pendingOrder = DB::table('orders')->where('tinh_trang', Constants::DANG_CHO_XU_LY)->count();
         $successOrder = DB::table('orders')->where('tinh_trang', Constants::DA_XONG)->count();

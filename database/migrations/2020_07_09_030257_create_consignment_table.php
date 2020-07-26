@@ -14,7 +14,9 @@ class CreateConsignmentTable extends Migration
     public function up()
     {
         Schema::create('consignment', function (Blueprint $table) {
-            $table->id();
+            $table->collation = 'utf8_unicode_ci';
+            $table->charset = 'utf8';
+            $table->increments('id')->nullable(false)->unsigned();
             $table->string('ma_van_don');
             $table->string('tinh_trang')->default(0);
             $table->timestamps();
