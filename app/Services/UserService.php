@@ -56,7 +56,7 @@ class UserService implements UserServiceInterface
 
     public function updatePriceListForUser($data)
     {
-      if ($data['role'] == Constants::USER_ADMIN_ROLE) {
+      if ($data['role'] === Constants::USER_ADMIN_ROLE) {
         return DB::table('price_list')->where('id', 1)->update([
           'price1' => $data['price1'],
           'price2' => $data['price2'],

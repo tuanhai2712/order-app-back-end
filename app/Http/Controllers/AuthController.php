@@ -53,13 +53,13 @@ class AuthController extends Controller
           return response()->json([
             'err' => "Mật khẩu cũ không chính xác",
             'code' => 422
-          ]);
+          ], Response::HTTP_OK);
       } else {
           $updatePasswordUser = $user->update(['password' => bcrypt($data['new_password'])]);
           return response()->json([
               'success' => $updatePasswordUser,
               'code' => 200,
-          ]);
+          ], Response::HTTP_OK);
       }
     }
 }

@@ -29,13 +29,13 @@ Route::group(['middleware' => 'cors'], function () {
       Route::post('confirm-order', 'OrderController@confirmOrder');
       Route::post('check-barcode', 'OrderController@checkBarcode');
       Route::post('reset-password', 'AuthController@reset');
-      Route::post('find-waybill-code', 'OrderController@findWaybillCode');
       Route::get('get-order-being-transported-status', 'OrderController@getOrderBeingTransportedStatus');
       Route::get('overview', 'SettingController@getOverview');
-      Route::post('change-setting', 'SettingController@setting');
       Route::post('get-user', 'UserController@getUser');
-      Route::post('import', 'OrderController@import');
       Route::post('update-price-list', 'UserController@updatePriceListForUser');
+      Route::post('change-setting', 'SettingController@setting');
+      Route::post('import', 'OrderController@import');
     });
     Route::get('setting', 'SettingController@getSetting');
+    Route::post('find-waybill-code', 'OrderController@findWaybillCode');
 });

@@ -7,6 +7,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SettingRequest;
 use App\Interfaces\SettingServiceInterface;
+use Illuminate\Support\Facades\File;
+
 
 class SettingController extends Controller
 {

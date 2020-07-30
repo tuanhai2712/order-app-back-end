@@ -10,7 +10,7 @@ interface OrderServiceInterface
     public function updateOrder($data);
     public function confirmOrder($data);
     public function checkBarcode($data);
-    public function import($data);
+    public function import($data, $type);
     public function findWaybillCode($data);
     public function getOrderBeingTransportedStatus();
 }

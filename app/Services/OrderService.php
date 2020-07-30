@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Constants;
 Use Carbon\Carbon;
 use App\EloquentModels\Order;
+use App\EloquentModels\Consignment;
 
 
 class OrderService implements OrderServiceInterface
@@ -143,7 +144,7 @@ class OrderService implements OrderServiceInterface
 
     public function getOrderBeingTransportedStatus()
     {
-      $orders = DB::table('orders')->where('tinh_trang', Constants::DANG_VAN_CHUYEN)->get()->toArray();
+      $orders = DB::table('orders')->where('tinh_trang', Constants::DEN_KHO_TQ)->get()->toArray();
       return $orders;
     }
 
@@ -174,7 +175,7 @@ class OrderService implements OrderServiceInterface
       ];
     }
 
-    public function import($data)
+    public function import($data, $type)
     {
         for ($i=1; $i < count($data); $i++) {
           if ($data[$i][0] === 0) {
@@ -187,22 +188,33 @@ class OrderService implements OrderServiceInterface
               "error" => "Dòng ".$row.": Vui lòng kiểm tra lại mã vận đơn 0"
             ];
           }
-            $order = Order::where([
-              ['ma_van_don', $data[$i][0]],
-            ])->first();
+            $order = Order::where('ma_van_don', $data[$i][0])->first();
             if ($order) {
-              if ($order->tinh_trang == Constants::CHO_GIAO_HANG) {
-                $order->update([
-                  'tinh_trang' => Constants::DANG_VAN_CHUYEN,
-                  'khoi_luong' => $data[$i][1],
-                  'updated_at' => Carbon::now()
-                ]);
+              $status = Constants::DEN_KHO_TQ;
+              if ($type === Constants::IMPORT_TYPE_DEN_KHO_VN) {
+                $status = Constants::DEN_KHO_VN;
+              } elseif ($type === Constants::IMPORT_TYPE_DA_TRA_HANG) {
+                $status = Constants::DA_XONG;
               }
+              $order->update([
+                'tinh_trang' => $status,
+                'khoi_luong' => $data[$i][1],
+                'updated_at' => Carbon::now()
+              ]);
             }
             if (!$order) {
-              $consignment = DB::table('consignment')->where('ma_van_don', $data[$i][0])->first();
+              $consignment = Consignment::where('ma_van_don', $data[$i][0])->first();
               if (!$consignment) {
                 DB::table('consignment')->insert(['ma_van_don' => $data[$i][0], 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
+              } else {
+                $status = Constants::KY_GUI_DEN_KHO_VN;
+                if ($type === Constants::IMPORT_TYPE_DA_TRA_HANG) {
+                   $status = Constants::KY_GUI_DA_TRA_HANG;
+                }
+                $consignment->update([
+                  'tinh_trang' => $status,
+                  'updated_at' => Carbon::now()
+                ]);
               }
             }
         }
@@ -215,6 +227,9 @@ class OrderService implements OrderServiceInterface
 
     public function findWaybillCode($data)
     {
-      return DB::table('consignment')->where('ma_van_don', $data['waybill_code'])->first();
+      if (!$data['search_type_goods']) {
+        return DB::table('consignment')->where('ma_van_don', $data['waybill_code'])->first();
+      }
+      return DB::table('orders')->where('ma_van_don', $data['waybill_code'])->first();
     }
 }

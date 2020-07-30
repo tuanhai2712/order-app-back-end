@@ -75,11 +75,12 @@ class OrderController extends Controller
     }
 
     public function import(ImportWaybillCodeRequest $request) {
+      $data = $request->all();
       $validated = $request->validateFileImport();
       if (!$validated['success']) {
         return $validated;
       }
-      $import = $this->orderService->import($validated['data']);
+      $import = $this->orderService->import($validated['data'], $data['type']);
       if (!$import['success']) {
         return $import;
       }
@@ -89,7 +90,10 @@ class OrderController extends Controller
     public function findWaybillCode(Request $request)
     {
         $data = $request->all();
-        $waybillCode = $this->orderService->findWaybillCode($data);
-        return response()->json($waybillCode, Response::HTTP_OK);
+        $result = $this->orderService->findWaybillCode($data);
+        return response()->json([
+          'data' => $result,
+          'search_type_goods' => $data['search_type_goods']
+        ], Response::HTTP_OK);
     }
 }
