@@ -31,13 +31,20 @@ class UserService implements UserServiceInterface
     public function getUser($conditions)
     {
         $page = $conditions['page'];
-        $query = $this->makeQuery($conditions)->join('price_list', 'users.price_list', '=', 'price_list.id')
+        $query = $this->makeQuery($conditions)
+            ->join('price_list', 'users.price_list', '=', 'price_list.id')
             ->select(
               'users.*',
-              'price_list.price1',
-              'price_list.price2',
-              'price_list.price3',
-              'price_list.price4'
+              'price_list.freight_charges_ls_fast_20',
+              'price_list.freight_charges_ls_slow_20',
+              'price_list.freight_charges_ls_fast_20_100',
+              'price_list.freight_charges_ls_slow_20_100',
+              'price_list.freight_charges_ls_fast_100',
+              'price_list.freight_charges_ls_slow_100',
+              'price_list.freight_charges_hn_fast_100',
+              'price_list.freight_charges_hn_slow_100',
+              'price_list.freight_charges_hcm_fast_100',
+              'price_list.freight_charges_hcm_slow_100'
             )->paginate(Constants::LIMIT_RECORD_PER_PAGE, ['*'], 'page', $page);
         return $query->toArray();
     }
@@ -58,27 +65,44 @@ class UserService implements UserServiceInterface
     {
       if ($data['role'] === Constants::USER_ADMIN_ROLE) {
         return DB::table('price_list')->where('id', 1)->update([
-          'price1' => $data['price1'],
-          'price2' => $data['price2'],
-          'price3' => $data['price3'],
-          'price4' => $data['price4'],
+          'freight_charges_ls_fast_20' => $data['freight_charges_ls_fast_20'],
+          'freight_charges_ls_slow_20' => $data['freight_charges_ls_slow_20'],
+          'freight_charges_ls_fast_20_100' => $data['freight_charges_ls_fast_20_100'],
+          'freight_charges_ls_slow_20_100' => $data['freight_charges_ls_slow_20_100'],
+          'freight_charges_ls_fast_100' => $data['freight_charges_ls_fast_100'],
+          'freight_charges_ls_slow_100' => $data['freight_charges_ls_slow_100'],
+          'freight_charges_hn_fast_100' => $data['freight_charges_hn_fast_100'],
+          'freight_charges_hn_slow_100' => $data['freight_charges_hn_slow_100'],
+          'freight_charges_hcm_fast_100' => $data['freight_charges_hcm_fast_100'],
+          'freight_charges_hcm_slow_100' => $data['freight_charges_hcm_slow_100'],
           'updated_at' => Carbon::now()
         ]);
       } else {
         $priceListId = null;
         $findPriceList = DB::table('price_list')->where([
-          ['price1', $data['price1']],
-          ['price2', $data['price2']],
-          ['price3', $data['price3']],
-          ['price4', $data['price4']]
+          ['freight_charges_ls_fast_20', $data['freight_charges_ls_fast_20']],
+          ['freight_charges_ls_slow_20', $data['freight_charges_ls_slow_20']],
+          ['freight_charges_ls_fast_20_100', $data['freight_charges_ls_fast_20_100']],
+          ['freight_charges_ls_slow_20_100', $data['freight_charges_ls_slow_20_100']],
+          ['freight_charges_ls_fast_100', $data['freight_charges_ls_fast_100']],
+          ['freight_charges_ls_slow_100', $data['freight_charges_ls_slow_100']],
+          ['freight_charges_hn_fast_100', $data['freight_charges_hn_fast_100']],
+          ['freight_charges_hn_slow_100', $data['freight_charges_hn_slow_100']],
+          ['freight_charges_hcm_fast_100', $data['freight_charges_hcm_fast_100']],
+          ['freight_charges_hcm_slow_100', $data['freight_charges_hcm_slow_100']],
         ])->first();
         if (!$findPriceList) {
           $priceListId = DB::table('price_list')->insertGetId([
-            'price1' => $data['price1'],
-            'price2' => $data['price2'],
-            'price3' => $data['price3'],
-            'price4' => $data['price4'],
-            'created_at' => Carbon::now(),
+            'freight_charges_ls_fast_20' => $data['freight_charges_ls_fast_20'],
+            'freight_charges_ls_slow_20' => $data['freight_charges_ls_slow_20'],
+            'freight_charges_ls_fast_20_100' => $data['freight_charges_ls_fast_20_100'],
+            'freight_charges_ls_slow_20_100' => $data['freight_charges_ls_slow_20_100'],
+            'freight_charges_ls_fast_100' => $data['freight_charges_ls_fast_100'],
+            'freight_charges_ls_slow_100' => $data['freight_charges_ls_slow_100'],
+            'freight_charges_hn_fast_100' => $data['freight_charges_hn_fast_100'],
+            'freight_charges_hn_slow_100' => $data['freight_charges_hn_slow_100'],
+            'freight_charges_hcm_fast_100' => $data['freight_charges_hcm_fast_100'],
+            'freight_charges_hcm_slow_100' => $data['freight_charges_hcm_slow_100'],
             'updated_at' => Carbon::now(),
           ]);
         } else {

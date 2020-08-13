@@ -17,10 +17,16 @@ class CreatePriceListTable extends Migration
             $table->collation = 'utf8_unicode_ci';
             $table->charset = 'utf8';
             $table->increments('id')->nullable(false)->unsigned();
-            $table->string('price1');
-            $table->string('price2');
-            $table->string('price3');
-            $table->string('price4');
+            $table->integer('freight_charges_ls_fast_20')->nullable();
+            $table->integer('freight_charges_ls_slow_20')->nullable();
+            $table->integer('freight_charges_ls_fast_20_100')->nullable();
+            $table->integer('freight_charges_ls_slow_20_100')->nullable();
+            $table->integer('freight_charges_ls_fast_100')->nullable();
+            $table->integer('freight_charges_ls_slow_100')->nullable();
+            $table->integer('freight_charges_hn_fast_100')->nullable();
+            $table->integer('freight_charges_hn_slow_100')->nullable();
+            $table->integer('freight_charges_hcm_fast_100')->nullable();
+            $table->integer('freight_charges_hcm_slow_100')->nullable();
             $table->timestamps();
         });
     }

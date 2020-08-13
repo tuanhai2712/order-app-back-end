@@ -29,6 +29,8 @@ class CreateOrdersTable extends Migration
             $table->integer('phi_ship_tq')->default(0)->nullable();
             $table->integer('phi_ship_vn')->default(0)->nullable();
             $table->string('khoi_luong')->default(0)->nullable();
+            $table->integer('cuoc_van_chuyen')->nullable();
+            $table->integer('chuyen_nhanh')->default(0);
             $table->integer('dat_coc')->default(0)->nullable();
             $table->integer('ty_gia')->default(0)->nullable();
             $table->integer('tinh_trang')->default(0)->nullable();

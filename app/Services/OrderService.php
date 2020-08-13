@@ -38,10 +38,16 @@ class OrderService implements OrderServiceInterface
             ->join('price_list', 'users.price_list', '=', 'price_list.id')
             ->select(
               'orders.*',
-              'price_list.price1',
-              'price_list.price2',
-              'price_list.price3',
-              'price_list.price4'
+              'price_list.freight_charges_ls_fast_20',
+              'price_list.freight_charges_ls_slow_20',
+              'price_list.freight_charges_ls_fast_20_100',
+              'price_list.freight_charges_ls_slow_20_100',
+              'price_list.freight_charges_ls_fast_100',
+              'price_list.freight_charges_ls_slow_100',
+              'price_list.freight_charges_hn_fast_100',
+              'price_list.freight_charges_hn_slow_100',
+              'price_list.freight_charges_hcm_fast_100',
+              'price_list.freight_charges_hcm_slow_100'
             )->paginate(Constants::LIMIT_RECORD_PER_PAGE, ['*'], 'page', $page);
         return $query->toArray();
     }
@@ -84,6 +90,7 @@ class OrderService implements OrderServiceInterface
         'user_id' => $userId,
         'ty_gia' => $data['ty_gia'],
         'ten_san_pham' => $data['ten_san_pham'],
+        'chuyen_nhanh' => $data['chuyen_nhanh'],
         'note' => $data['note'],
         'created_at' => Carbon::now(),
       ]);
@@ -127,6 +134,7 @@ class OrderService implements OrderServiceInterface
       $dataUpdate['phi_ship_tq'] = $data['phi_ship_tq'];
       $dataUpdate['phi_ship_vn'] = $data['phi_ship_vn'];
       $dataUpdate['dat_coc'] = $data['dat_coc'];
+      $dataUpdate['chuyen_nhanh'] = $data['chuyen_nhanh'];
       $dataUpdate['note'] = $data['note'];
       $dataUpdate['updated_at'] = Carbon::now();
       $updated = $oldOrders->update($dataUpdate);

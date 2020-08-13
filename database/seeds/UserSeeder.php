@@ -14,9 +14,9 @@ class UserSeeder extends Seeder
     {
         $data = [
           'name' => 'Triệu Thùy Dung',
-          'email' => 'admin@gmail.com',
-          'address' => 'Thôn Hoàng Tân - Xã Hoàng Đồng - TP.Lạng Sơn',
-          'phone_number' => '0947271292',
+          'email' => 'vanchuyen3mien@gmail.com',
+          'address' => 'Số 76 - Đường Hồ Tùng Mậu - TP. Lạng Sơn',
+          'phone_number' => '0973191282',
           'role' => 999,
           'password' => bcrypt('12345678'),
           'created_at' => new Datetime(),
