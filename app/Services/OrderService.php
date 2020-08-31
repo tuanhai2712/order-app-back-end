@@ -48,13 +48,17 @@ class OrderService implements OrderServiceInterface
               'price_list.freight_charges_hn_slow_100',
               'price_list.freight_charges_hcm_fast_100',
               'price_list.freight_charges_hcm_slow_100'
-            )->paginate(Constants::LIMIT_RECORD_PER_PAGE, ['*'], 'page', $page);
+            )
+            ->paginate(Constants::LIMIT_RECORD_PER_PAGE, ['*'], 'page', $page);
         return $query->toArray();
     }
 
     private function makeQuery($conditions)
     {
       $query = DB::table('orders')->orderBy('created_at', 'asc');
+      if (isset($conditions['order_id'])) {
+        $query->where('orders.id', $conditions['order_id']);
+      }
       if (isset($conditions['role'])) {
         if ($conditions['role'] == Constants::USER_NORMAL_ROLE) {
           $query->where('user_id', $conditions['user_id']);
